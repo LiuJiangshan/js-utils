@@ -5,6 +5,7 @@
   "author": "LiuJiangshan",
   "private": false,
   "dependencies": {
+    "axios": "^0.18.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {},
