@@ -4,11 +4,22 @@
   "description": "js-utils",
   "author": "LiuJiangshan",
   "private": false,
+  "scripts": {
+    "test:unit": "jest -c jest.config.js"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/jest": "^23.3.9",
+    "axios-mock-adapter": "^1.15.0",
+    "jest": "^23.6.0",
+    "mockjs": "^1.0.1-beta3",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.6"
+  },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
