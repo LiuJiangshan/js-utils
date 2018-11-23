@@ -14,14 +14,14 @@
 ```typescript
 import ApiService from "@/apiService"
 // 创建实例
-const userService = new ApiService({baseURL:"/api/user"})
+const userService = new ApiService({baseURL:"/api",url:"/user"})
 // 查询用户列表
 userService.get({name:"tom"}).then(
     response=>{
         console.log(response.data)
     })
 // 查询指定用户职位信息
-userService.get({url:"job",id:99}).then(
+userService.get({urlSuffix:"/job",id:99}).then(
     response=>{
         console.log(response.data)
     })
