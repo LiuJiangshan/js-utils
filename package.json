@@ -1,12 +1,25 @@
 {
-  "name": "js-utils",
-  "version": "1.0.0",
+  "name": "@liujiangshan/js-utils",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/liujiangshan/js-utils.git"
+  },
   "description": "js-utils",
-  "author": "LiuJiangshan",
+  "author": {
+    "name": "liujiangshan",
+    "email": "ljs234@qq.com"
+  },
+  "license": "MIT",
   "private": false,
   "scripts": {
     "test:unit": "jest -c jest.config.js"
   },
+  "keywords": [
+    "utils",
+    "js",
+    "ts"
+  ],
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.11"

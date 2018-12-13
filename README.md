@@ -1,3 +1,9 @@
+#### 安装
+```bash
+npm install @liujiangshan/js-utils
+or
+npm add @liujiangshan/js-utils
+```
 #### 技术架构
 
 | 分类        | 使用技术               |
