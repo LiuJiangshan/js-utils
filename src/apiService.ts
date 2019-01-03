@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosPromise, AxiosRequestConfig} from "axios";
+import axios, {AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosStatic} from "axios";
 
 enum HttpRequestType {
     POST = "POST", GET = "GET", PUT = "PUT", DELETE = "DELETE", UPDATE = "UPDATE"
@@ -8,19 +8,24 @@ interface ApiRequestConfig extends AxiosRequestConfig {
     urlSuffix?: string
 }
 
-export default class ApiService {
-    private config: AxiosRequestConfig
-    public axiosInstance: AxiosInstance = axios
+interface Props extends AxiosRequestConfig {
+    axiosInstance?: AxiosInstance
+}
 
-    constructor(config: AxiosRequestConfig = {}) {
+export default class ApiService {
+    public static globalAxios: AxiosStatic = axios
+    private readonly config: Props
+
+    constructor(config: Props = {}) {
         this.config = config
-        this.axiosInstance = axios.create(config)
     }
 
     private send(config: ApiRequestConfig): AxiosPromise {
-        config.url = config.url || this.config.url || ''
-        if (config.urlSuffix) config.url += config.urlSuffix
-        return this.axiosInstance(config)
+        const mergeConfig = {url: '', ...this.config, ...config}
+        if (config.urlSuffix) mergeConfig.url += config.urlSuffix
+        const {axiosInstance} = this.config
+        /** 若不为空,则使用本实例,否则使用全局axios实例 */
+        return axiosInstance ? axiosInstance(mergeConfig) : ApiService.globalAxios(mergeConfig)
     }
 
     public get(config: ApiRequestConfig = {}): AxiosPromise {

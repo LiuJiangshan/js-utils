@@ -22,18 +22,39 @@ mockAdapter.onGet('/api/user/job').reply(200, {
     data: {name: 'CEO', wage: 10000}
 })
 const userService = new ApiService({baseURL: '/api', url: '/user'})
-test('GET请求', async () => {
-    const response = await userService.get()
-    expect(response.data.msg).toBe(MockHttpMessage.searchOK)
-})
-test('DELETE请求', async () => {
-    const response = await userService.delete()
-    expect(response.data.msg).toBe(MockHttpMessage.deleteOk)
-})
-test('后缀模式请求', async () => {
-    const response = await userService.get({urlSuffix: '/job'})
-    expect(response.data.msg).toBe(MockHttpMessage.searchOK)
-    expect(response.data.data.name).not.toBeNull()
-    expect(typeof response.data.data.wage).toBe('number')
-})
+describe('apiService', () => {
+    beforeEach(() => {
+    })
 
+    it('GET请求', async () => {
+        const response = await userService.get()
+        expect(response.data.msg).toBe(MockHttpMessage.searchOK)
+    })
+    it('DELETE请求', async () => {
+        const response = await userService.delete()
+        expect(response.data.msg).toBe(MockHttpMessage.deleteOk)
+    })
+    it('后缀模式请求', async () => {
+        const response = await userService.get({urlSuffix: '/job'})
+        expect(response.data.msg).toBe(MockHttpMessage.searchOK)
+        expect(response.data.data.name).not.toBeNull()
+        expect(typeof response.data.data.wage).toBe('number')
+    })
+    it('全局拦截器', async () => {
+        const onFulfilled = jest.fn(config => config)
+        ApiService.globalAxios.interceptors.request.use(onFulfilled)
+        await new ApiService({baseURL: '/api', url: '/user', method: 'get'}).get({urlSuffix: '/job'})
+        expect(onFulfilled.mock.calls.length).toBe(1)
+    })
+    it('单实例拦截器', async () => {
+        const onFulfilled = jest.fn(config => config)
+        const axiosInstance = axios.create()
+        axiosInstance.interceptors.request.use(onFulfilled)
+        await new ApiService({axiosInstance, baseURL: '/api', url: '/user', method: 'get'}).get({urlSuffix: '/job'})
+        expect(onFulfilled.mock.calls.length).toBe(1)
+    })
+    it('全局、单实例拦截器混合', () => {
+        const globalOnFulfilled = jest.fn(config => config)
+        const instanceOnFulfilled = jest.fn(config => config)
+    })
+})
