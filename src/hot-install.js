@@ -1,4 +1,4 @@
-import { stringHash } from './hash.js'
+import { stringHash } from './hash'
 
 const installed = {}
 

@@ -1,8 +1,8 @@
 ### ApiService
 #### 一、介绍
 ##### 一劳永逸、面向对象的http请求方案,更适合restful api访问
-#### 二、使用
-##### 有如下api:
+#### 二、简单使用
+###### 有如下api:
 |Url|Params|Method|Info|
 |-----|:----|:----|-----|
 |/api/user|{name:""}|GET|获取用户列表|
@@ -30,4 +30,21 @@ userService.delete({data:{id:99}}).then(
     response=>{
         console.log(response.data)
     })
+```
+#### 三、拦截器
+##### 1.全局拦截器
+```typescript
+import ApiService from '@/apiService'
+// 设置全局拦截器
+ApiService.globalAxios.interceptors...
+```
+##### 2.单实例拦截器
+```typescript
+import ApiService from '@/apiService'
+import axios from 'axios'
+const axiosInstance = axios.create()
+// 设置单实例拦截器
+axiosInstance.interceptors...
+// 注意:使用单例拦截器后,全局拦截器将失效
+const userService = new ApiService({axiosInstance})
 ```
