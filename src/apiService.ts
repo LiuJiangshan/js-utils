@@ -12,7 +12,7 @@ interface Props extends AxiosRequestConfig {
     axiosInstance?: AxiosInstance
 }
 
-export default class ApiService {
+export default class ApiService<ResponseDataType = any> {
     public static globalAxios: AxiosStatic = axios
     private readonly config: Props
 
@@ -20,7 +20,7 @@ export default class ApiService {
         this.config = config
     }
 
-    private send(config: ApiRequestConfig): AxiosPromise {
+    private send(config: ApiRequestConfig): AxiosPromise<ResponseDataType> {
         const mergeConfig = {url: '', ...this.config, ...config}
         if (config.urlSuffix) mergeConfig.url += config.urlSuffix
         const {axiosInstance} = this.config
@@ -28,27 +28,27 @@ export default class ApiService {
         return axiosInstance ? axiosInstance(mergeConfig) : ApiService.globalAxios(mergeConfig)
     }
 
-    public get(config: ApiRequestConfig = {}): AxiosPromise {
+    public get(config: ApiRequestConfig = {}) {
         config.method = HttpRequestType.GET
         return this.send(config)
     }
 
-    public put(config: ApiRequestConfig = {}): AxiosPromise {
+    public put(config: ApiRequestConfig = {}) {
         config.method = HttpRequestType.PUT
         return this.send(config)
     }
 
-    public delete(config: ApiRequestConfig = {}): AxiosPromise {
+    public delete(config: ApiRequestConfig = {}) {
         config.method = HttpRequestType.DELETE
         return this.send(config)
     }
 
-    public post(config: ApiRequestConfig = {}): AxiosPromise {
+    public post(config: ApiRequestConfig = {}) {
         config.method = HttpRequestType.POST
         return this.send(config)
     }
 
-    public update(config: ApiRequestConfig = {}): AxiosPromise {
+    public update(config: ApiRequestConfig = {}) {
         config.method = HttpRequestType.UPDATE
         return this.send(config)
     }
