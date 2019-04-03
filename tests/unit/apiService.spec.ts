@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
-import ApiService from "@/apiService";
+import ApiService, {ApiServiceListener} from "@/apiService";
 import MockHttpMessage from '../mockHttpMessage'
 
 const mockAdapter = new MockAdapter(axios);
@@ -77,5 +77,17 @@ describe('apiService', () => {
         }
         expect(globalOnFulfilled.mock.calls.length).toBe(testCount)
         expect(instanceOnFulfilled.mock.calls.length).toBe(testCount)
+    })
+    it('listener测试', async () => {
+        const onReady = jest.fn(config => null)
+        const onResponse = jest.fn(response => null)
+        const onError = jest.fn(() => null)
+        const onEnd = jest.fn(() => null)
+        const listener = {onReady, onResponse, onError, onEnd} as ApiServiceListener
+        await new ApiService({baseURL: 'api', url: 'user'}).get({urlSuffix: '/job', listener})
+        expect(onReady.mock.calls.length).toBe(1)
+        expect(onResponse.mock.calls.length).toBe(1)
+        expect(onError.mock.calls.length).toBe(0)
+        expect(onEnd.mock.calls.length).toBe(1)
     })
 })
